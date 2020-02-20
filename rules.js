@@ -63,12 +63,7 @@ function moveA() {
   if (vMoves[0]) {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 7) % 8, cSelection[1] - 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
@@ -77,12 +72,7 @@ function moveB() {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 6) % 8, cSelection[1] - 2);
     men.splice(isMan((cSelection[0] + 7) % 8, cSelection[1] - 1), 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
@@ -90,12 +80,7 @@ function moveC() {
   if (vMoves[2]) {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 1) % 8, cSelection[1] - 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
@@ -104,12 +89,7 @@ function moveD() {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 2) % 8, cSelection[1] - 2);
     men.splice(isMan((cSelection[0] + 1) % 8, cSelection[1] - 1), 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
@@ -117,12 +97,7 @@ function moveE() {
   if (vMoves[4]) {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 7) % 8, cSelection[1] + 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
@@ -131,12 +106,7 @@ function moveF() {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 6) % 8, cSelection[1] + 2);
     men.splice(isMan((cSelection[0] + 7) % 8, cSelection[1] + 1), 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
@@ -144,12 +114,8 @@ function moveG() {
   if (vMoves[6]) {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 1) % 8, cSelection[1] + 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
+
   }
 }
 
@@ -158,17 +124,11 @@ function moveH() {
     men[isMan(cSelection[0], cSelection[1])].moveTo((cSelection[0] + 2) % 8, cSelection[1] + 2);
     men.splice(isMan((cSelection[0] + 1) % 8, cSelection[1] + 1), 1);
     kingAll();
-    let w = checkWin()
-    if (w != 0) {
-      noLoop();
-    }
     rTurn = !rTurn;
-    findStaleMate();
   }
 }
 
 function checkWin() {
-  let win = 0;
   let blackCheckerCount = 0;
   let redCheckerCount = 0;
   for (let i = 0; i < men.length; i++) {
@@ -179,12 +139,13 @@ function checkWin() {
     }
   }
   if (blackCheckerCount == 0) {
-    win = 1
+    movetxt.html('Red Wins!!');
+    noLoop();
   }
   if (redCheckerCount == 0) {
-    win = -1;
+    movetxt.html('Black Wins!!');
+    noLoop();
   }
-  return win;
 }
 
 function kingAll() {
@@ -196,51 +157,62 @@ function kingAll() {
   }
 }
 
+let stalemateProgress = 0;
+
 function findStaleMate() {
-  for (let stalemateProgress = 0; stalemateProgress <= 1; stalemateProgress++) {
-    let moveFound = false;
-    for (let i = 0; i < men.length; i++) {
-      if (!xor(men[i].isRed, rTurn)) {
-        if (men[i].isRed || (!men[i].isRed && men[i].kinged > 0)) {
-          if (men[i].y - 1 >= 0 && isMan((men[i].x + 7) % 8, men[i].y - 1) == -1) {
-            moveFound = true;
-          }
-          if (men[i].y - 2 >= 0 && ((isMan((men[i].x + 7) % 8, men[i].y - 1) != -1 ? men[isMan((men[i].x + 7) % 8, men[i].y - 1)].isRed != rTurn : false) && isMan((men[i].x + 6) % 8, men[i].y - 2) == -1)) {
-            moveFound = true;
-          }
-          if (men[i].y - 1 >= 0 && isMan((men[i].x + 1) % 8, men[i].y - 1) == -1) {
-            moveFound = true;
-          }
-          if (men[i].y - 2 >= 0 && ((isMan((men[i].x + 1) % 8, men[i].y - 1) != -1 ? men[isMan((men[i].x + 1) % 8, men[i].y - 1)].isRed != rTurn : false) && isMan((men[i].x + 2) % 8, men[i].y - 2) == -1)) {
+  let moveFound = false;
+  for (let i = 0; i < men.length; i++) {
+    if (men[i].isRed == rTurn) {
+      if (men[i].isRed || (!men[i].isRed && men[i].kinged > 0)) {
+        if (men[i].y - 1 >= 0 && isMan((men[i].x + 7) % 8, men[i].y - 1) == -1) {
+          moveFound = true;
+        }
+        if (men[i].y - 2 >= 0 && (isMan((men[i].x + 7) % 8, men[i].y - 1) != -1 && isMan((men[i].x + 6) % 8, men[i].y - 2) == -1)) {
+          if (men[isMan((men[i].x + 7) % 8, men[i].y - 1)].isRed != rTurn) {
             moveFound = true;
           }
         }
-        if (!men[i].isRed || (men[i].isRed && men[i].kinged > 0)) {
-          if (men[i].y + 1 <= 7 && isMan((men[i].x + 7) % 8, men[i].y + 1) == -1) {
-            moveFound = true;
-          }
-          if (men[i].y + 2 <= 7 && ((isMan((men[i].x + 7) % 8, men[i].y + 1) != -1 ? men[isMan((men[i].x + 7) % 8, men[i].y + 1)].isRed != rTurn : false) && isMan((men[i].x + 6) % 8, men[i].y + 2) == -1)) {
-            moveFound = true;
-          }
-          if (men[i].y + 1 <= 7 && isMan((men[i].x + 1) % 8, men[i].y + 1) == -1) {
-            moveFound = true;
-          }
-          if (men[i].y + 2 <= 7 && ((isMan((men[i].x + 1) % 8, men[i].y + 1) != -1 ? men[isMan((men[i].x + 1) % 8, men[i].y + 1)].isRed != rTurn : false) && isMan((men[i].x + 2) % 8, men[i].y + 2) == -1)) {
+        if (men[i].y - 1 >= 0 && isMan((men[i].x + 1) % 8, men[i].y - 1) == -1) {
+          moveFound = true;
+        }
+        if (men[i].y - 2 >= 0 && (isMan((men[i].x + 1) % 8, men[i].y - 1) != -1 && isMan((men[i].x + 2) % 8, men[i].y - 2) == -1)) {
+          if (men[isMan((men[i].x + 1) % 8, men[i].y - 1)].isRed != rTurn) {
             moveFound = true;
           }
         }
       }
-    }
-    if (moveFound) {
-      stalemateProgress = 0;
-      break;
-    }
-    if (!moveFound && stalemateProgress == 0) {
-      rTurn = !rTurn;
-    }
-    if (!moveFound && stalemateProgress == 1) {
-      movetxt.html('Stalemate!');
-      noLoop();
+      if (!men[i].isRed || (men[i].isRed && men[i].kinged > 0)) {
+        if (men[i].y + 1 <= 7 && isMan((men[i].x + 7) % 8, men[i].y + 1) == -1) {
+          moveFound = true;
+        }
+        if (men[i].y + 2 <= 7 && (isMan((men[i].x + 7) % 8, men[i].y + 1) != -1 && isMan((men[i].x + 6) % 8, men[i].y + 2) == -1)) {
+          if (men[isMan((men[i].x + 7) % 8, men[i].y + 1)].isRed != rTurn) {
+            moveFound = true;
+          }
+        }
+        if (men[i].y + 1 <= 7 && isMan((men[i].x + 1) % 8, men[i].y + 1) == -1) {
+          moveFound = true;
+        }
+        if (men[i].y + 2 <= 7 && (isMan((men[i].x + 1) % 8, men[i].y + 1) != -1 && isMan((men[i].x + 2) % 8, men[i].y + 2) == -1)) {
+          if (men[isMan((men[i].x + 1) % 8, men[i].y + 1)].isRed != rTurn) {
+            moveFound = true;
+          }
+
+        }
+      }
+      if (moveFound) {
+        stalemateProgress = 0;
+        break;
+      }
+      if (!moveFound && stalemateProgress == 0) {
+        stalemateProgress++;
+        rTurn = !rTurn;
+      }
+      if (!moveFound && stalemateProgress == 1) {
+        movetxt.html('Stalemate!');
+        noLoop();
+      }
+
     }
   }
 }
