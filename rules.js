@@ -200,19 +200,17 @@ function findStaleMate() {
 
         }
       }
-      if (moveFound) {
-        stalemateProgress = 0;
-        break;
-      }
-      if (!moveFound && stalemateProgress == 0) {
-        stalemateProgress++;
-        rTurn = !rTurn;
-      }
-      if (!moveFound && stalemateProgress == 1) {
-        movetxt.html('Stalemate!');
-        noLoop();
-      }
-
     }
+  }
+  if (moveFound) {
+    stalemateProgress = 0;
+  }
+  if (!moveFound && stalemateProgress == 0) {
+    stalemateProgress++;
+    rTurn = !rTurn;
+  }
+  if (!moveFound && stalemateProgress == 1) {
+    movetxt.html('Stalemate!');
+    noLoop();
   }
 }
