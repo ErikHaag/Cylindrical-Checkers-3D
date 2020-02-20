@@ -33,7 +33,7 @@ function nMan(X, Y, iR) {
         translate(0, -10, 0);
         if (wrapBox.checked()) {
           rotateX(-PI / 2);
-          translate(0, 0, 10)
+          translate(0, -20, 10)
         }
         scale(100, -100 * this.kinged, 100);
         fill(255);
