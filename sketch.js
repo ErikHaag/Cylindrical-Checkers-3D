@@ -65,6 +65,8 @@ function draw() {
   drawBoard();
   drawCoords()
   updateButtons();
+  checkWin();
+  findStaleMate();
   for (let i = 0; i < men.length; i++) {
     men[i].disp();
   }
