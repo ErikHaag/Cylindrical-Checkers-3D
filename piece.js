@@ -1,9 +1,9 @@
-function nMan(X, Y, iR) {
+function nMan(X, Y, iR, isKing) {
   const man = {
     x: X,
     y: Y,
     isRed: iR,
-    kinged: 0,
+    kinged: (isKing?1:0),
     disp: function() {
       push();
       if (this.isRed) {
