@@ -45,12 +45,12 @@ function setup() {
   men = [];
   for (let i = 0; i <= 2; i++) {
     for (let j = 0; j <= 3; j++) {
-      men.push(nMan((2 * j) + (i + 1) % 2, i, false))
+      men.push(nMan((2 * j) + (i + 1) % 2, i, false, false))
     }
   }
   for (let i = 0; i <= 2; i++) {
     for (let j = 0; j <= 3; j++) {
-      men.push(nMan((2 * j) + (i % 2), i + 5, true))
+      men.push(nMan((2 * j) + (i % 2), i + 5, true,false))
     }
   }
 }
@@ -67,8 +67,8 @@ function draw() {
   updateButtons();
   checkWin();
   findStaleMate();
-  for (let i = 0; i < men.length; i++) {
-    men[i].disp();
+  for(let i = 0; i < men.length; i++) {
+      men[i].disp();
   }
 }
 
