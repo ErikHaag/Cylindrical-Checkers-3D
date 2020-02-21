@@ -3,6 +3,9 @@ let logo;
 let pieceSelection;
 let moveButtons = [];
 let movetxt;
+let nGamebutton;
+let sgameB;
+let loadG;
 
 function GUI() {
   wrapBox = createCheckbox('Wrap Board', false);
@@ -28,6 +31,17 @@ function GUI() {
   movetxt.position(595, 215);
   movetxt.style('font-size:100px');
   movetxt.style('font-family: "Courier New", Courier, monospace');
+  nGamebutton = createButton('New game');
+  nGamebutton.position(550,500);
+  nGamebutton.size(80,20);
+  nGamebutton.mouseClicked(nGame);
+  sgameB = createButton('download game state');
+  sgameB.position(550, 525);
+  sgameB.size(150, 20);
+  sgameB.mouseClicked(saveGame);
+  loadG = createFileInput(loadGame);
+  loadG.position(550, 550);
+  loadG.size(120,20);
 }
 
 function updateGUI() {
@@ -69,4 +83,23 @@ function updateButtons() {
       moveButtons[i].style('border: 5px solid #B10000;');
     }
   }
+}
+
+function nGame() {
+  loop();
+  men.splice(0,men.length-1);
+  for (let i = 0; i <= 2; i++) {
+    for (let j = 0; j <= 3; j++) {
+      men.push(nMan((2 * j) + (i + 1) % 2, i, false,false));
+    }
+  }
+  for (let i = 0; i <= 2; i++) {
+    for (let j = 0; j <= 3; j++) {
+      men.push(nMan((2 * j) + (i % 2), i + 5, true,false));
+    }
+  }
+  rTurn = true;
+  a = 0;
+  pieceSelection.value('');
+  wrapBox.checked(false);
 }
