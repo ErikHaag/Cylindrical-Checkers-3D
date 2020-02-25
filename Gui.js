@@ -87,7 +87,7 @@ function updateButtons() {
 
 function nGame() {
   loop();
-  let tMen
+  let tMen = [];
   for (let i = 0; i <= 2; i++) {
     for (let j = 0; j <= 3; j++) {
       tMen.push(nMan((2 * j) + (i + 1) % 2, i, false,false));
